@@ -52,7 +52,7 @@ public class LoansServiceImpl implements ILoansService {
 
     @Override
     public boolean updateLoan(LoansDto loansDto) {
-        Loans loans = loansRepository.findByMobileNumber(loansDto.getMobileNumber()).orElseThrow(
+        Loans loans = loansRepository.findByLoanNumber(loansDto.getMobileNumber()).orElseThrow(
                 () -> new ResourceNotFoundException("Loan", "mobileNumber", loansDto.getMobileNumber())
         );
 
