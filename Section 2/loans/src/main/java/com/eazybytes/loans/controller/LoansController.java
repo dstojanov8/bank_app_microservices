@@ -4,6 +4,7 @@ import com.eazybytes.loans.constants.LoansConstants;
 import com.eazybytes.loans.dto.LoansDto;
 import com.eazybytes.loans.dto.ResponseDto;
 import com.eazybytes.loans.service.ILoansService;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -38,4 +39,17 @@ public class LoansController {
         return ResponseEntity.status(HttpStatus.OK).body(loanDto);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDto> updateLoanDetails(@Valid @RequestBody LoansDto loansDto) {
+        boolean isUpdated = loansService.updateLoan(loansDto);
+        if(isUpdated) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseDto(LoansConstants.STATUS_200, LoansConstants.MESSAGE_200));
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(LoansConstants.STATUS_417, LoansConstants.MESSAGE_417_UPDATE));
+        }
+    }
 }
