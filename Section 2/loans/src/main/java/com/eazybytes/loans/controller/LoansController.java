@@ -1,6 +1,7 @@
 package com.eazybytes.loans.controller;
 
 import com.eazybytes.loans.constants.LoansConstants;
+import com.eazybytes.loans.dto.LoansDto;
 import com.eazybytes.loans.dto.ResponseDto;
 import com.eazybytes.loans.service.ILoansService;
 import jakarta.validation.constraints.Pattern;
@@ -27,6 +28,14 @@ public class LoansController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto(LoansConstants.STATUS_201, LoansConstants.MESSAGE_201));
+    }
+
+    @GetMapping("/fetch")
+    public ResponseEntity<LoansDto> fetchLoanDetails(@RequestParam
+                                                         @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits")
+                                                         String mobileNumber) {
+        LoansDto loanDto = loansService.fetchLoan(mobileNumber);
+        return ResponseEntity.status(HttpStatus.OK).body(loanDto);
     }
 
 }
